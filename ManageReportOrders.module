@@ -1,0 +1,10 @@
+<?php
+
+require 'vendor/autoload.php';
+
+
+/**
+ * Include Drupal files required
+ */
+module_load_include('inc', 'ManageReportOrders', 'inc/Routers');
+module_load_include('inc', 'ManageReportOrders', 'inc/UI');

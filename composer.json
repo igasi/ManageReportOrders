@@ -1,0 +1,21 @@
+{
+    "name": "mro/mro",
+    "description": "Manage Report Order in Drupal 7 Commerce",
+    "license": "GNU GENERAL PUBLIC LICENSE",
+    "authors": [
+        {
+            "name": "Isaac Gasi",
+            "email": "isaac.gasi@gmail.com"
+        }
+    ],
+    "require": {
+        "monolog/monolog": "1.10.*",
+        "phpseclib/phpseclib": "0.3.7",
+        "symfony/yaml": "2.5.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "mro\\": "src/",
+        }
+    }
+}

@@ -1,0 +1,10 @@
+name = Manage Report Orders
+description = Manage Report Order in Drupal 7 Commerce
+core = 7.x
+package = Commerce (contrib)
+
+dependencies[] = job_scheduler
+
+
+timestamp = 1408998935
+;igasi 

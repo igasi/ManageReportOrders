@@ -1,0 +1,42 @@
+<?php
+
+/**
+ * @file
+ * Contains install and update functions for ManageReportOrders.
+ */
+
+/**
+ * Implement hook_requirements($phase)
+ * Use requirements to ensure that the MRO directory can be
+ * created and that the PHP version requirement is met.
+ */
+function ManageReportOrders_requirements($phase) {
+
+  $requirements = array();
+  
+  if ($phase == 'runtime') {
+    $requirements['mro_storage'] = array(
+      'title' => t('Manage Report Orders storage: Config, Logs and Reports'),
+      'severity' => REQUIREMENT_OK,
+      'value' => t('Exists'),
+    );
+
+    $base_path = 'private://mro/';
+    $paths = array(
+    	'config' => $base_path . 'config',
+    	'logs' => $base_path . 'logs',
+    	'reports' => $base_path . 'reports',
+    );
+
+    foreach ($paths as $dir => $path) {
+	    if (!file_prepare_directory($path, FILE_CREATE_DIRECTORY)) {
+	      $requirements['mro_storage']['description'] = t('The MRO Config directory, %path could not be created due to a misconfigured files directory. Please ensure that the files directory is correctly configured and that the webserver has permission to create directories.', array('%path' => file_uri_target($path)));
+	      $requirements['mro_storage']['severity'] = REQUIREMENT_ERROR;
+	      $requirements['mro_storage']['value'] = t('Unable to create');
+	    }
+    }
+
+  }
+
+  return $requirements;
+}
