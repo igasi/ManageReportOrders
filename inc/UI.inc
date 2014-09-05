@@ -11,34 +11,52 @@ module_load_include('inc', 'ManageReportOrders', 'inc/Config');
 
 function ManageReportOrders_Settings(){
   $form = array();
+// Tabs
+  $form['tabs_settings'] = array(
+    '#type' => 'vertical_tabs',
+  );
   
-// Mode Executions
-  $form['mode'] = array(
+// Tab Mode Executions
+  $form['tabs_settings_modeExecutions'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Mode Executions'),
+    '#collapsible' => TRUE,
+    '#description' => t('Select mode execution'),
+    '#group' => 'tabs_settings'
+  );
+
+  $form['tabs_settings_modeExecutions']['mode'] = array(
     '#title' => t('Mode Execution'),
     '#type' => 'select',
     '#description' => 'Sandbox is mode for testing and development',
     '#options' => array(
-    	'live' => 'Live (Default)',
-    	'sandbox' => 'Sandbox'
+      'live' => 'Live (Default)',
+      'sandbox' => 'Sandbox'
     ),
     '#default_value' => array('sandbox'),
+    '#group' => 'tabs_settings',
   );
 
-// Type Executions
-  $form['type'] = array(
+// Tab Executions
+  $form['tabs_settings_typeExecutions'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Type Executions'),
+    '#collapsible' => TRUE,
+    '#description' => t('Select type execution'),
+    '#group' => 'tabs_settings'
+  );
+
+  $form['tabs_settings_typeExecutions']['type'] = array(
     '#title' => t('Type Execution'),
     '#type' => 'select',
     '#options' => array(
-    	'periodical' => 'Periodical (Default)',
-    	'manual' => 'Manual'
+      'periodical' => 'Periodical (Default)',
+      'manual' => 'Manual'
     ),
     '#default_value' => array('periodical'),
-
+    '#group' => 'tabs_settings',
   );
 
-	$form['tabs_settings'] = array(
-    '#type' => 'vertical_tabs',
-  );
 
 	// Tab Filter Criteria
   $form['tabs_settings_filtercriteria'] = array(
