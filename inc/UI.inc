@@ -1,16 +1,20 @@
 <?php
 
-use Symfony\Component\Yaml\Parser;
-use Symfony\Component\Yaml\Dumper;
-
-module_load_include('inc', 'ManageReportOrders', 'inc/Config');
+use mro\Config\Config;
 
 /**
  * UI: Tab for settings
  */
 
 function ManageReportOrders_Settings(){
+
+  $config = new mroConfig();
+// echo "<pre>";
+// print_r( $config->getConfig('mode','defaults') );
+// echo "</pre>";
+
   $form = array();
+
 // Tabs
   $form['tabs_settings'] = array(
     '#type' => 'vertical_tabs',
@@ -29,11 +33,8 @@ function ManageReportOrders_Settings(){
     '#title' => t('Mode Execution'),
     '#type' => 'select',
     '#description' => 'Sandbox is mode for testing and development',
-    '#options' => array(
-      'live' => 'Live (Default)',
-      'sandbox' => 'Sandbox'
-    ),
-    '#default_value' => array('sandbox'),
+    '#options' => $config->getConfig('mode','options'),
+    '#default_value' => $config->getConfig('mode','defaults'),
     '#group' => 'tabs_settings',
   );
 
@@ -49,11 +50,8 @@ function ManageReportOrders_Settings(){
   $form['tabs_settings_typeExecutions']['type'] = array(
     '#title' => t('Type Execution'),
     '#type' => 'select',
-    '#options' => array(
-      'periodical' => 'Periodical (Default)',
-      'manual' => 'Manual'
-    ),
-    '#default_value' => array('periodical'),
+    '#options' => $config->getConfig('type','options'),
+    '#default_value' => $config->getConfig('type','defaults'),
     '#group' => 'tabs_settings',
   );
 
@@ -69,19 +67,9 @@ function ManageReportOrders_Settings(){
 
   $form['tabs_settings_filtercriteria']['statuses'] = array(
     '#type' => 'checkboxes',
-    '#options' => drupal_map_assoc(
-    		array(	
-    			"'pending'",
-    			"'refunded'",
-    			"'refund'"
-    		)
-    	),
+    '#options' => $config->getConfig('filter_criteria','options'),
     '#title' => t('Select allowed status'),
-    '#default_value' => array(	
-    			"'pending'",
-    			"'refunded'",
-    			"'refund'"
-    		),
+    '#default_value' => $config->getConfig('filter_criteria','defaults'),
     '#group' => 'tabs_settings'
   );
 
@@ -103,21 +91,12 @@ function ManageReportOrders_Settings(){
     '#description' => t('Set different settings which will effect site wide.'),
     '#group' => 'tabs_settings'
   );
-   
-/*
-$dumper = new Dumper();
 
-$yaml = $dumper->dump($fields);
-$path = 'private://mro/config/default.yml';
-file_put_contents($path, $yaml);
-*/
-
-  $form['tabs_settings_fields']['setting'] = array(
-    '#type' => 'textarea',
-    '#required' => TRUE,
-    '#default_value' => 'Default',
-    '#title' => t('Contact mail.'),
-    '#description' => t('Body text when a new comment is posted by users.'),
+  $form['tabs_settings_fields']['fields'] = array(
+    '#type' => 'checkboxes',
+    '#options' => $config->getConfig('fields','options'),
+    '#title' => t('Select allowed fields'),
+    '#default_value' => $config->getConfig('fields','defaults'),
     '#group' => 'tabs_settings'
   );
 
@@ -131,12 +110,11 @@ file_put_contents($path, $yaml);
     '#group' => 'tabs_settings'
   );
    
-  $form['tabs_settings_ordercriteria']['setting'] = array(
-    '#type' => 'textarea',
-    '#required' => TRUE,
-    '#default_value' => 'Default',
-    '#title' => t('Contact mail.'),
-    '#description' => t('Body text when a new comment is posted by users.'),
+  $form['tabs_settings_ordercriteria']['ordercriteria'] = array(
+    '#type' => 'radios',
+    '#default_value' => $config->getConfig('order_criteria','defaults'),
+    '#options' => $config->getConfig('order_criteria','options'),
+    '#title' => t('Select allowed order criteria'),
     '#group' => 'tabs_settings'
   );
 
@@ -210,7 +188,7 @@ file_put_contents($path, $yaml);
     '#type' => 'submit', 
     '#value' => t('Restore default values'),
   );
- 
+
   return $form;
 }
 
